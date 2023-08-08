@@ -6,4 +6,6 @@
     <string name="add_your_first_cocktail_here">Add your first cocktail here</string>
     <string name="action_try_again">Try Again</string>
     <string name="error_title">An error occured!</string>
+    <string name="edit">Edit</string>
+    <string name="recipe">Recipe:</string>
 </resources>

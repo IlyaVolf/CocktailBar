@@ -38,6 +38,7 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.cocktailsListRv.adapter = adapter
+        initListeners()
         observeCocktails()
     }
 
@@ -55,7 +56,7 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
 
                 is DataHolder.READY -> {
                     manageVisibility(
-                        visibilityLoadingView = true,
+                        visibilityLoadingView = false,
                         visibilityEmptyListView = holder.data.isEmpty(),
                         visibilityListView = holder.data.isNotEmpty(),
                         visibilityErrorView = false
@@ -98,10 +99,23 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
         visibilityListView: Boolean,
         visibilityErrorView: Boolean
     ) {
-        binding.loadingView.root.isVisible = visibilityLoadingView
-        binding.emptyListCocktailsCl.root.isVisible = visibilityEmptyListView
-        binding.cocktailsListRv.isVisible = visibilityListView
-        binding.loadingError.Error.isVisible = visibilityErrorView
+        with (binding) {
+            loadingView.root.isVisible = visibilityLoadingView
+            emptyListCocktailsCl.root.isVisible = visibilityEmptyListView
+            myCocktailsTv.isVisible = visibilityListView
+            cocktailsListRv.isVisible = visibilityListView
+            errorView.root.isVisible = visibilityErrorView
+        }
+    }
+
+    private fun initListeners() {
+        initErrorViewListener()
+    }
+
+    private fun initErrorViewListener() {
+        binding.errorView.root.setOnClickListener {
+            viewModel.tryAgain()
+        }
     }
 
 }
