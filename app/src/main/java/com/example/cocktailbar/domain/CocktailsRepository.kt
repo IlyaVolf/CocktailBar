@@ -4,14 +4,14 @@ import com.example.cocktailbar.domain.entities.Cocktail
 
 interface CocktailsRepository {
 
-    fun getCocktails(): List<Cocktail>
+    suspend fun getCocktails(): List<Cocktail>
 
-    fun getCocktail(id: String): Cocktail
+    suspend fun getById(id: Long): Cocktail
 
-    fun addCocktail(cocktail: Cocktail)
+    suspend fun addCocktail(cocktail: Cocktail)
 
-    fun updateCocktail(cocktail: Cocktail)
+    suspend fun updateCocktail(cocktail: Cocktail)
 
-    fun deleteCocktail(cocktail: Cocktail)
+    suspend fun deleteCocktail(cocktail: Cocktail)
 
 }
