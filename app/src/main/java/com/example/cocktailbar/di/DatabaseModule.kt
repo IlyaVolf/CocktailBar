@@ -24,6 +24,7 @@ class DatabaseModule {
     }
 
     @Provides
+    @Singleton
     fun provideCocktailsDao(database: AppDatabase): CocktailsDao {
         return database.getCocktailsDao()
     }

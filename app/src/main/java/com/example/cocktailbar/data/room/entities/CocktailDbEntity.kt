@@ -13,5 +13,6 @@ data class CocktailDbEntity(
     val name: String,
     val description: String,
     val ingredients: String,
-    val recipe: String
+    val recipe: String,
+    val image: String?,
 )
