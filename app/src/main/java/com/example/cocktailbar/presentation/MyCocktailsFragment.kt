@@ -3,7 +3,8 @@ package com.example.cocktailbar.presentation
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import androidx.fragment.app.viewModels
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.cocktailbar.R
 import com.example.cocktailbar.databinding.FragmentMyCocktailsBinding
@@ -23,6 +24,7 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
     private val viewModel by viewModelCreator {
         factory.create()
     }
+
     //private val viewModel by viewModels<MyCocktailsViewModel>()
     private val binding by viewBinding<FragmentMyCocktailsBinding>()
 
@@ -35,35 +37,47 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.cocktailsListRv.adapter = adapter
         observeCocktails()
     }
 
     private fun observeCocktails() {
         viewModel.cocktailsList.observe(viewLifecycleOwner) { holder ->
             when (holder) {
+                is DataHolder.LOADING -> {
+                    manageVisibility(
+                        visibilityLoadingView = true,
+                        visibilityEmptyListView = false,
+                        visibilityListView = false,
+                        visibilityErrorView = false
+                    )
+                }
+
                 is DataHolder.READY -> {
-                    setVisibility(
-                        isRefreshing = false,
-                        visibilityLoadingView = View.GONE,
-                        visibilityContentView = View.VISIBLE,
-                        visibilityErrorView = View.GONE
+                    manageVisibility(
+                        visibilityLoadingView = true,
+                        visibilityEmptyListView = holder.data.isEmpty(),
+                        visibilityListView = holder.data.isNotEmpty(),
+                        visibilityErrorView = false
                     )
                     adapter.submitList(holder.data)
-                    if (holder.data.isNotEmpty()) {
-                        binding.cocktailsListRv.visibility = View.VISIBLE
-                        binding.emptyListCocktailsCl.root.visibility = View.GONE
-                    } else {
-                        binding.cocktailsListRv.visibility = View.GONE
-                        binding.emptyListCocktailsCl.root.visibility = View.VISIBLE
-                    }
+                }
+
+                is DataHolder.ERROR -> {
+                    manageVisibility(
+                        visibilityLoadingView = false,
+                        visibilityEmptyListView = false,
+                        visibilityListView = false,
+                        visibilityErrorView = true
+                    )
                 }
 
                 else -> {
-                    setVisibility(
-                        isRefreshing = false,
-                        visibilityLoadingView = View.GONE,
-                        visibilityContentView = View.VISIBLE,
-                        visibilityErrorView = View.GONE
+                    manageVisibility(
+                        visibilityLoadingView = false,
+                        visibilityEmptyListView = false,
+                        visibilityListView = false,
+                        visibilityErrorView = false
                     )
                 }
             }
@@ -78,16 +92,16 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
         findNavController().navigate(direction)
     }
 
-    private fun setVisibility(
-        isRefreshing: Boolean,
-        visibilityLoadingView: Int,
-        visibilityContentView: Int,
-        visibilityErrorView: Int
+    private fun manageVisibility(
+        visibilityLoadingView: Boolean,
+        visibilityEmptyListView: Boolean,
+        visibilityListView: Boolean,
+        visibilityErrorView: Boolean
     ) {
-        /*binding.swipeRefreshLayout.isRefreshing = isRefreshing
-        binding.loadingView.root.visibility = visibilityLoadingView
-        binding.contentView.visibility = visibilityContentView
-        binding.errorView.root.visibility = visibilityErrorView*/
+        binding.loadingView.root.isVisible = visibilityLoadingView
+        binding.emptyListCocktailsCl.root.isVisible = visibilityEmptyListView
+        binding.cocktailsListRv.isVisible = visibilityListView
+        binding.loadingError.Error.isVisible = visibilityErrorView
     }
 
 }
