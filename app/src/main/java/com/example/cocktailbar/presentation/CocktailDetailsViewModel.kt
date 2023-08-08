@@ -22,7 +22,6 @@ class CocktailDetailsViewModel @AssistedInject constructor(
     val cocktail = _cocktail.share()
 
     init {
-        Log.d("ABCDEF", "CocktailDetailsViewModel")
         _cocktail.postValue(DataHolder.loading())
         load()
     }

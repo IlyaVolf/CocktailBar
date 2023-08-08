@@ -25,6 +25,11 @@ class MyCocktailsViewModel @AssistedInject constructor(
         load()
     }
 
+    fun refresh() {
+        _cocktailsList.postValue(DataHolder.loading())
+        load()
+    }
+
     fun tryAgain() {
         _cocktailsList.postValue(DataHolder.loading())
         load()
@@ -32,10 +37,6 @@ class MyCocktailsViewModel @AssistedInject constructor(
 
     private fun load() = viewModelScope.launch {
         try {
-            /*for (i in 1..100) {
-                cocktailsRepository.deleteCocktail(Cocktail(i.toLong(), "a", "b", listOf(), "", null))
-            }
-            cocktailsRepository.addCocktail(Cocktail(0, "a", "b", listOf(), "", null))*/
             val cocktails = cocktailsRepository.getCocktails()
             _cocktailsList.postValue(DataHolder.ready(cocktails))
         } catch (e: Exception) {

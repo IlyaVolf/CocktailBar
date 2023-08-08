@@ -85,14 +85,6 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
         }
     }
 
-    private fun navigateToCocktailDetailsFragment(cocktailId: Long) {
-        val direction =
-            MyCocktailsFragmentDirections.actionMyCocktailsFragmentToCocktailDetailsFragment(
-                cocktailId = cocktailId
-            )
-        findNavController().navigate(direction)
-    }
-
     private fun manageVisibility(
         visibilityLoadingView: Boolean,
         visibilityEmptyListView: Boolean,
@@ -110,12 +102,48 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
 
     private fun initListeners() {
         initErrorViewListener()
+        initAddCocktailListener()
+        initFragmentResultListener()
     }
 
     private fun initErrorViewListener() {
         binding.errorView.root.setOnClickListener {
             viewModel.tryAgain()
         }
+    }
+
+    private fun initAddCocktailListener() {
+        binding.addCocktailB.setOnClickListener {
+            navigateToAddCocktailFragment()
+        }
+    }
+
+    private fun initFragmentResultListener() {
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            IS_CREATED_REQUEST_CODE,
+            viewLifecycleOwner
+        ) { _, _ ->
+            viewModel.refresh()
+        }
+    }
+
+    private fun navigateToCocktailDetailsFragment(cocktailId: Long) {
+        val direction =
+            MyCocktailsFragmentDirections.actionMyCocktailsFragmentToCocktailDetailsFragment(
+                cocktailId = cocktailId
+            )
+        findNavController().navigate(direction)
+    }
+
+    private fun navigateToAddCocktailFragment() {
+        val direction =
+            MyCocktailsFragmentDirections.actionMyCocktailsFragmentToAddCocktailFragment()
+        findNavController().navigate(direction)
+    }
+
+    companion object {
+        const val IS_CREATED = "IS_CREATED"
+        const val IS_CREATED_REQUEST_CODE = "IS_CREATED_REQUEST_CODE_POST"
     }
 
 }

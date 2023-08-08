@@ -29,4 +29,7 @@ interface CocktailsDao {
     @Delete
     suspend fun deleteCocktail(cocktailDbEntity: CocktailDbEntity)
 
+    @Query("DELETE FROM cocktails")
+    suspend fun deleteAllCocktails()
+
 }

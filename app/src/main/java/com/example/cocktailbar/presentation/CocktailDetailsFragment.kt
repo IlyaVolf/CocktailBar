@@ -53,6 +53,7 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
                 }
 
                 is DataHolder.READY -> {
+
                     manageVisibility(
                         visibilityLoadingView = false,
                         visibilityContentView = true,
@@ -104,14 +105,14 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
         binding.cocktailNameTv.text = cocktail.name
         binding.cocktailImageIv.loadImage(cocktail.image.orEmpty())
 
-        if (cocktail.description != "") {
+        if (cocktail.description == "") {
             binding.cocktailDescriptionTv.isVisible = false
         } else {
             binding.cocktailDescriptionTv.isVisible = true
             binding.cocktailDescriptionTv.text = cocktail.description
         }
 
-        if (cocktail.recipe != "") {
+        if (cocktail.recipe == "") {
             binding.recipeTitleTv.isVisible = false
             binding.recipeTv.isVisible = false
         } else {

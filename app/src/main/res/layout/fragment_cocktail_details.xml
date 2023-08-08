@@ -97,7 +97,7 @@
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="16dp"
                 android:paddingHorizontal="16dp"
-                android:text="@string/recipe"
+                android:text="@string/recipe_title"
                 android:textAlignment="center"
                 android:textAppearance="@style/Text.Normal.16" />
 

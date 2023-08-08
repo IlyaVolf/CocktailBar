@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:strokeWidth="0dp"
-    app:cardCornerRadius="54dp">
+    app:cardCornerRadius="54dp"
+    app:strokeWidth="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,25 +27,26 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:importantForAccessibility="no"
             android:src="@drawable/background_gradient"
+            android:translationZ="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:translationZ="1dp"
-            android:importantForAccessibility="no" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/cocktail_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="34dp"
+            android:textAlignment="center"
             android:textAppearance="@style/Text.Normal.18"
             android:textColor="@color/white"
+            android:translationZ="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="34dp"
-            android:textAlignment="center"
             tools:text="Pink Lemonade" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
