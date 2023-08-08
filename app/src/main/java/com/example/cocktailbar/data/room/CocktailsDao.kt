@@ -11,22 +11,25 @@ import com.example.cocktailbar.data.room.entities.CocktailDbEntity
 @Dao
 interface CocktailsDao {
 
-   /* @Query("SELECT * FROM cocktails WHERE :id = id")
-    suspend fun getById(id: Long): CocktailDbEntity*/
-
     @Query("SELECT * FROM cocktails WHERE :id = id")
-    fun getById(id: Long): Flow<CocktailDbEntity?>
+    suspend fun getById(id: Long): CocktailDbEntity
+
+    /*@Query("SELECT * FROM cocktails WHERE :id = id")
+    fun getById(id: Long): Flow<CocktailDbEntity?>*/
 
     @Query("SELECT * FROM cocktails")
     suspend fun getCocktails(): List<CocktailDbEntity>
 
     @Insert
-    suspend fun createCocktail(cocktailDbEntity: CocktailDbEntity)
+    suspend fun addCocktail(cocktailDbEntity: CocktailDbEntity)
 
     @Update
     suspend fun updateCocktail(cocktailDbEntity: CocktailDbEntity)
 
     @Delete
     suspend fun deleteCocktail(cocktailDbEntity: CocktailDbEntity)
+
+    @Query("DELETE FROM cocktails")
+    suspend fun deleteAllCocktails()
 
 }

@@ -7,7 +7,7 @@ import com.example.cocktailbar.data.room.entities.CocktailDbEntity
 @Database(
     version = 1,
     entities = [
-        CocktailDbEntity::class
+        CocktailDbEntity::class,
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
