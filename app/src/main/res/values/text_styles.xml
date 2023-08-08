@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text" parent="TextAppearance.AppCompat"/>
+
+    <style name="Text.Normal">
+        <item name="fontFamily">@font/didact_gothic_regular</item>
+    </style>
+
+    <style name="Text.Normal.36">
+        <item name="android:textSize">36sp</item>
+    </style>
+
+    <style name="Text.Normal.16">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>
