@@ -8,4 +8,12 @@
     <string name="error_title">An error occured!</string>
     <string name="edit">Edit</string>
     <string name="recipe">Recipe:</string>
+    <string name="cocktail_name">Cocktail name</string>
+    <string name="optional_field">Optional Field</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="title">Title</string>
+    <string name="ask_cancel_post_warning">All changes will be lost\n</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_back">Back</string>
 </resources>

@@ -19,6 +19,10 @@
         <item name="android:textSize">24sp</item>
     </style>
 
+    <style name="Text.Normal.18">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="Text.Normal.16">
         <item name="android:textSize">16sp</item>
     </style>
