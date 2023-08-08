@@ -21,7 +21,7 @@ class RoomCocktailsRepository @Inject constructor(
 
     // TODO remove this temporary method which inits some cocktails info
     private suspend fun initDb(size: Int): List<CocktailDbEntity> {
-        cocktailsDao.deleteAllCocktails()
+        //cocktailsDao.deleteAllCocktails()
         if (size == 0) {
             addCocktail(
                 Cocktail(
