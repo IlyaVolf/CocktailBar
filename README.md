@@ -6,23 +6,23 @@ Apk-файл: [apk file](/app-debug.apk)
 ### Реализовано:
 -   Экран с коктелями пользователя:
     Реализован полностью в рамках основого задания;
-    
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/fa3c1ab6-0eda-45e0-912f-dcb763738cba" width="270" height="480">
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/4ff4bd69-34aa-4be6-b9f4-e6900ec52aeb" width="270" height="480">
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/6da07b47-969f-40f7-9925-dcd2dea96a16" width="270" height="480">
+
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/56fe4272-8b66-4675-a347-e5404df0637c" width="270" height="480">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/e4f6a5da-94e4-47e2-b3c5-b6b6fd36a1d5" width="270" height="480">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/0328c4a9-68be-40b8-a54b-bbb76f88b73b" width="270" height="480">
     
 -   Экран “Деталка коктейля”:
     Реализован полностью в рамках основого задания;
 
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/0ce98b99-b730-48c8-8296-7ccbd39b6511" width="270" height="480">
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/af9ad29b-2408-42ee-aee4-9d4fee0afc4f" width="270" height="480">
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/d5affa27-959f-4f47-88b2-76905cee812e" width="270" height="480">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/9b8373e4-3323-4e27-9baa-1da141cf147d" width="270" height="480">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/9bf1d3fc-806b-427e-9781-4540a0da43f4" width="270" height="480">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/75256635-cd84-492c-a840-1fa0b9284227" width="270" height="480">
     
 -   Экран “Создание коктейля”:
     Реализовано создание коктеля без загрузки фотографии и рецепта. Добавление фотографии и рецепта захардкожены, тогда как их хранение и отображение полностью поддерживается.
 
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/9dcd5bc8-5e7d-4460-ad73-a9e0fd07ef46" width="270" height="480">
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/2d40854a-bd38-4ac3-94b9-7dc654c88682" width="270" height="480">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/552dbe38-e9c1-4dd3-8038-f0a87ed70477" width="270" height="480">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/7c8ca45e-9a8f-4a04-8b1d-2ac8e20fcdee" width="270" height="480">
 
 -   Доп:
     -   Состояния экранов:
