@@ -22,7 +22,7 @@ Apk-файл: [apk file](/app-debug.apk)
     Реализовано создание коктеля без загрузки фотографии и рецепта. Добавление фотографии и рецепта захардкожены, тогда как их хранение и отображение полностью поддерживается.
     ![Картинка][image1] ![Картинка][image3] ![Картинка][image3]
 
-    [photo_2023-08-09_13-09-35](https://github.com/IlyaVolf/CocktailBar/assets/70796651/0ce98b99-b730-48c8-8296-7ccbd39b6511)
+    [image1]: //https://github.com/IlyaVolf/CocktailBar/assets/70796651/0ce98b99-b730-48c8-8296-7ccbd39b6511
     [image2]: //placehold.it/250x100
     [image3]: //placehold.it/250x100
 -   Доп:
