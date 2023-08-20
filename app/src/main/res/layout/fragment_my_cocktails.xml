@@ -13,7 +13,7 @@
         layout="@layout/view_empty_list_cocktails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/materialButton"
+        app:layout_constraintBottom_toTopOf="@id/add_cocktail_b"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -40,6 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/my_cocktails_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:spanCount="2"
         tools:listitem="@layout/item_cocktail" />
 

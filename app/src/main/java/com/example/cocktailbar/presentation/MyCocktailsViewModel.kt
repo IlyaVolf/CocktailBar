@@ -10,6 +10,7 @@ import com.example.cocktailbar.utils.share
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,8 +38,9 @@ class MyCocktailsViewModel @AssistedInject constructor(
 
     private fun load() = viewModelScope.launch {
         try {
-            val cocktails = cocktailsRepository.getCocktails()
-            _cocktailsList.postValue(DataHolder.ready(cocktails))
+            cocktailsRepository.getCocktails().collect {
+                _cocktailsList.postValue(DataHolder.ready(it))
+            }
         } catch (e: Exception) {
             _cocktailsList.value = DataHolder.error(e)
         }

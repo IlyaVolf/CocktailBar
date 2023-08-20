@@ -118,7 +118,7 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
         } else {
             binding.recipeTitleTv.isVisible = true
             binding.recipeTv.isVisible = true
-            binding.recipeTv.text = cocktail.description
+            binding.recipeTv.text = cocktail.recipe
         }
 
         adapter.submitList(ingredients)

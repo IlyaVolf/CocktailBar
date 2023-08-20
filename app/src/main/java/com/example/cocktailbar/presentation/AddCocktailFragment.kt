@@ -3,13 +3,11 @@ package com.example.cocktailbar.presentation
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.cocktailbar.R
 import com.example.cocktailbar.databinding.FragmentAddCocktailBinding
 import com.example.cocktailbar.domain.entities.AddCocktailData
-import com.example.cocktailbar.presentation.MyCocktailsFragment.Companion.IS_CREATED_REQUEST_CODE
 import com.example.cocktailbar.utils.DataHolder
 import com.example.cocktailbar.utils.createSimpleDialog
 import com.example.cocktailbar.utils.viewBinding
@@ -45,7 +43,6 @@ class AddCocktailFragment : Fragment(R.layout.fragment_add_cocktail) {
         viewModel.save.observe(viewLifecycleOwner) { holder ->
             when (holder) {
                 is DataHolder.READY -> {
-                    sendResult()
                     goBack()
                 }
 
@@ -92,13 +89,6 @@ class AddCocktailFragment : Fragment(R.layout.fragment_add_cocktail) {
         findNavController().navigateUp()
     }
 
-    private fun sendResult() {
-        requireActivity().supportFragmentManager.setFragmentResult(
-            IS_CREATED_REQUEST_CODE,
-            bundleOf()
-        )
-    }
-
     private fun createCancelDialog() {
         val messageText = getString(R.string.ask_cancel_post_warning)
 
@@ -107,24 +97,24 @@ class AddCocktailFragment : Fragment(R.layout.fragment_add_cocktail) {
         val negativeButtonText = getString(R.string.action_delete)
 
         createSimpleDialog(
-            requireContext(),
-            null,
-            messageText,
-            negativeButtonText,
-            { dialog, _ ->
+            context = requireContext(),
+            titleText = null,
+            messageText = messageText,
+            negativeButtonText= negativeButtonText,
+            negativeButtonAction = { dialog, _ ->
                 run {
                     goBack()
                     dialog.cancel()
                 }
             },
-            neutralButtonText,
-            { dialog, _ ->
+            neutralButtonText = neutralButtonText,
+            neutralButtonAction = { dialog, _ ->
                 run {
                     dialog.cancel()
                 }
             },
-            null,
-            null,
+            positiveButtonText = null,
+            positiveButtonAction= null,
         )
     }
 

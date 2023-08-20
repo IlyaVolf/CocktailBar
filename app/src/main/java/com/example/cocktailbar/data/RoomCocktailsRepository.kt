@@ -8,6 +8,8 @@ import com.example.cocktailbar.domain.CocktailsRepository
 import com.example.cocktailbar.domain.entities.AddCocktailData
 import com.example.cocktailbar.domain.entities.Cocktail
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,9 +22,9 @@ class RoomCocktailsRepository @Inject constructor(
 ) : CocktailsRepository {
 
     // TODO remove this temporary method which inits some cocktails info
-    private suspend fun initDb(size: Int): List<CocktailDbEntity> {
-        //cocktailsDao.deleteAllCocktails()
-        if (size == 0) {
+    private suspend fun initDb(size: Int): Flow<List<CocktailDbEntity>> {
+        cocktailsDao.deleteAllCocktails()
+        if (size < 0) {
             addCocktail(
                 Cocktail(
                     id = 0,
@@ -60,13 +62,13 @@ class RoomCocktailsRepository @Inject constructor(
         return cocktailsDao.getCocktails()
     }
 
-    override suspend fun getCocktails(): List<Cocktail> = withContext(ioDispatcher) {
+    override suspend fun getCocktails(): Flow<List<Cocktail>> {
         var cocktailDbEntityList = cocktailsDao.getCocktails()
 
         // TODO remove later
-        cocktailDbEntityList = initDb(cocktailDbEntityList.size)
+        //cocktailDbEntityList = initDb(cocktailDbEntityList.size)
 
-        return@withContext cocktailDbEntityList.map { cocktailMapper.toCocktail(it) }
+        return cocktailDbEntityList.map { list -> list.map { cocktailMapper.toCocktail(it) } }
     }
 
     override suspend fun getById(id: Long): Cocktail = withContext(ioDispatcher) {

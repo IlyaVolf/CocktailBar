@@ -103,7 +103,6 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
     private fun initListeners() {
         initErrorViewListener()
         initAddCocktailListener()
-        initFragmentResultListener()
     }
 
     private fun initErrorViewListener() {
@@ -115,15 +114,6 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
     private fun initAddCocktailListener() {
         binding.addCocktailB.setOnClickListener {
             navigateToAddCocktailFragment()
-        }
-    }
-
-    private fun initFragmentResultListener() {
-        requireActivity().supportFragmentManager.setFragmentResultListener(
-            IS_CREATED_REQUEST_CODE,
-            viewLifecycleOwner
-        ) { _, _ ->
-            viewModel.refresh()
         }
     }
 
@@ -139,11 +129,6 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
         val direction =
             MyCocktailsFragmentDirections.actionMyCocktailsFragmentToAddCocktailFragment()
         findNavController().navigate(direction)
-    }
-
-    companion object {
-        const val IS_CREATED = "IS_CREATED"
-        const val IS_CREATED_REQUEST_CODE = "IS_CREATED_REQUEST_CODE_POST"
     }
 
 }
