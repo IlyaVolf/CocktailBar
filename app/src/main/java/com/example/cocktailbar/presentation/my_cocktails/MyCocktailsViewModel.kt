@@ -32,10 +32,10 @@ class MyCocktailsViewModel @AssistedInject constructor(
         try {
             _state.postValue(MyCocktailsState.Loading)
             cocktailsRepository.getCocktails().collect {
-                _state.postValue(MyCocktailsState.Ready(it))
+                _state.postValue(MyCocktailsState.DataReady(it))
             }
         } catch (e: Exception) {
-            _state.postValue(MyCocktailsState.Error)
+            _state.postValue(MyCocktailsState.Error(e))
         }
     }
 

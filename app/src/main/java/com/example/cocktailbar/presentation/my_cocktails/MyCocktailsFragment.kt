@@ -56,7 +56,7 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
                     setErrorVisibility(false)
                 }
 
-                is MyCocktailsState.Ready -> {
+                is MyCocktailsState.DataReady -> {
                     setEmptyListVisibility(state.cocktailsList.isEmpty())
                     setNonEmptyListVisibility(state.cocktailsList.isNotEmpty())
                     setLoadingVisibility(false)

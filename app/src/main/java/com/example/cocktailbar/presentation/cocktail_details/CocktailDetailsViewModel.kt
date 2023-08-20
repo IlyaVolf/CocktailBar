@@ -1,5 +1,7 @@
 package com.example.cocktailbar.presentation.cocktail_details
 
+import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cocktailbar.domain.CocktailsRepository
@@ -17,25 +19,34 @@ class CocktailDetailsViewModel @AssistedInject constructor(
     private val cocktailsRepository: CocktailsRepository
 ) : ViewModel() {
 
-    private val _cocktail = ObservableHolder<Cocktail>(DataHolder.init())
+    private val _cocktail = MutableLiveData<CocktailDetailsState>(CocktailDetailsState.Initial)
     val cocktail = _cocktail.share()
 
     init {
-        _cocktail.postValue(DataHolder.loading())
         load()
     }
 
     fun tryAgain() {
-        _cocktail.postValue(DataHolder.loading())
         load()
+    }
+
+    fun delete() = viewModelScope.launch {
+        try {
+            _cocktail.postValue(CocktailDetailsState.Loading)
+            val cocktail = cocktailsRepository.getById(cocktailId)
+            _cocktail.postValue(CocktailDetailsState.DataReady(cocktail))
+        } catch (e: Exception) {
+            _cocktail.postValue(CocktailDetailsState.Error(e))
+        }
     }
 
     private fun load() = viewModelScope.launch {
         try {
+            _cocktail.postValue(CocktailDetailsState.Loading)
             val cocktail = cocktailsRepository.getById(cocktailId)
-            _cocktail.postValue(DataHolder.ready(cocktail))
+            _cocktail.postValue(CocktailDetailsState.DataReady(cocktail))
         } catch (e: Exception) {
-            _cocktail.value = DataHolder.error(e)
+            _cocktail.postValue(CocktailDetailsState.Error(e))
         }
     }
 

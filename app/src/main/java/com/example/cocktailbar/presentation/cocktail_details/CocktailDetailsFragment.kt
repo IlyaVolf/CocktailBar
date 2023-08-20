@@ -4,12 +4,14 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.cocktailbar.R
 import com.example.cocktailbar.databinding.FragmentCocktailDetailsBinding
 import com.example.cocktailbar.domain.entities.Cocktail
 import com.example.cocktailbar.domain.entities.Ingredient
 import com.example.cocktailbar.presentation.list.IngredientsAdapter
+import com.example.cocktailbar.presentation.my_cocktails.MyCocktailsState
 import com.example.cocktailbar.utils.DataHolder
 import com.example.cocktailbar.utils.image_loader.loadImage
 import com.example.cocktailbar.utils.viewBinding
@@ -41,9 +43,9 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
     }
 
     private fun observeCocktail() {
-        viewModel.cocktail.observe(viewLifecycleOwner) { holder ->
-            when (holder) {
-                is DataHolder.LOADING -> {
+        viewModel.cocktail.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is CocktailDetailsState.Initial -> {
                     manageVisibility(
                         visibilityLoadingView = true,
                         visibilityContentView = false,
@@ -51,17 +53,24 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
                     )
                 }
 
-                is DataHolder.READY -> {
+                is CocktailDetailsState.Loading -> {
+                    manageVisibility(
+                        visibilityLoadingView = true,
+                        visibilityContentView = false,
+                        visibilityErrorView = false
+                    )
+                }
 
+                is CocktailDetailsState.DataReady -> {
                     manageVisibility(
                         visibilityLoadingView = false,
                         visibilityContentView = true,
                         visibilityErrorView = false
                     )
-                    renderContent(holder.data)
+                    renderContent(state.cocktail)
                 }
 
-                is DataHolder.ERROR -> {
+                is CocktailDetailsState.Error -> {
                     manageVisibility(
                         visibilityLoadingView = false,
                         visibilityContentView = false,
@@ -69,12 +78,8 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
                     )
                 }
 
-                else -> {
-                    manageVisibility(
-                        visibilityLoadingView = false,
-                        visibilityContentView = false,
-                        visibilityErrorView = false
-                    )
+                CocktailDetailsState.DeletionReady -> {
+                    findNavController().popBackStack()
                 }
             }
         }
