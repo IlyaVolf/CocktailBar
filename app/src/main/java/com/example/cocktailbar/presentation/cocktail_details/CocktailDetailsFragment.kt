@@ -1,7 +1,6 @@
-package com.example.cocktailbar.presentation
+package com.example.cocktailbar.presentation.cocktail_details
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.view.isVisible

@@ -1,9 +1,8 @@
-package com.example.cocktailbar.presentation
+package com.example.cocktailbar.presentation.my_cocktails
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.cocktailbar.R
@@ -25,7 +24,6 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
         factory.create()
     }
 
-    //private val viewModel by viewModels<MyCocktailsViewModel>()
     private val binding by viewBinding<FragmentMyCocktailsBinding>()
 
     private val adapter = CocktailsAdapter(object : CocktailsAdapter.Listener {
@@ -43,9 +41,18 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
     }
 
     private fun observeCocktails() {
-        viewModel.cocktailsList.observe(viewLifecycleOwner) { holder ->
-            when (holder) {
-                is DataHolder.LOADING -> {
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is MyCocktailsState.Initial -> {
+                    manageVisibility(
+                        visibilityLoadingView = false,
+                        visibilityEmptyListView = false,
+                        visibilityListView = false,
+                        visibilityErrorView = false
+                    )
+                }
+
+                is MyCocktailsState.Loading -> {
                     manageVisibility(
                         visibilityLoadingView = true,
                         visibilityEmptyListView = false,
@@ -54,31 +61,22 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
                     )
                 }
 
-                is DataHolder.READY -> {
+                is MyCocktailsState.Ready -> {
                     manageVisibility(
                         visibilityLoadingView = false,
-                        visibilityEmptyListView = holder.data.isEmpty(),
-                        visibilityListView = holder.data.isNotEmpty(),
+                        visibilityEmptyListView = state.cocktailsList.isEmpty(),
+                        visibilityListView = state.cocktailsList.isNotEmpty(),
                         visibilityErrorView = false
                     )
-                    adapter.submitList(holder.data)
+                    adapter.submitList(state.cocktailsList)
                 }
 
-                is DataHolder.ERROR -> {
+                is MyCocktailsState.Error -> {
                     manageVisibility(
                         visibilityLoadingView = false,
                         visibilityEmptyListView = false,
                         visibilityListView = false,
                         visibilityErrorView = true
-                    )
-                }
-
-                else -> {
-                    manageVisibility(
-                        visibilityLoadingView = false,
-                        visibilityEmptyListView = false,
-                        visibilityListView = false,
-                        visibilityErrorView = false
                     )
                 }
             }

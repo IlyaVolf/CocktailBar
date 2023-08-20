@@ -8,6 +8,7 @@ import com.example.cocktailbar.domain.CocktailsRepository
 import com.example.cocktailbar.domain.entities.AddCocktailData
 import com.example.cocktailbar.domain.entities.Cocktail
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -65,6 +66,8 @@ class RoomCocktailsRepository @Inject constructor(
     override suspend fun getCocktails(): Flow<List<Cocktail>> {
         var cocktailDbEntityList = cocktailsDao.getCocktails()
 
+        delay(1000)
+
         // TODO remove later
         //cocktailDbEntityList = initDb(cocktailDbEntityList.size)
 
@@ -73,21 +76,35 @@ class RoomCocktailsRepository @Inject constructor(
 
     override suspend fun getById(id: Long): Cocktail = withContext(ioDispatcher) {
         val cocktailDbEntity = cocktailsDao.getById(id)
+
+        delay(1000)
+
         return@withContext cocktailMapper.toCocktail(cocktailDbEntity)
     }
 
     override suspend fun addCocktail(cocktail: Cocktail) = withContext(ioDispatcher) {
         val cocktailDbEntity = cocktailMapper.toCocktailDbEntity(cocktail)
+
+        delay(1000)
+
+
         cocktailsDao.addCocktail(cocktailDbEntity)
     }
 
     override suspend fun updateCocktail(cocktail: Cocktail) = withContext(ioDispatcher) {
         val cocktailDbEntity = cocktailMapper.toCocktailDbEntity(cocktail)
+
+        delay(1000)
+
+
         cocktailsDao.updateCocktail(cocktailDbEntity)
     }
 
     override suspend fun deleteCocktail(cocktail: Cocktail) = withContext(ioDispatcher) {
         val cocktailDbEntity = cocktailMapper.toCocktailDbEntity(cocktail)
+
+        delay(1000)
+
         cocktailsDao.deleteCocktail(cocktailDbEntity)
     }
 }

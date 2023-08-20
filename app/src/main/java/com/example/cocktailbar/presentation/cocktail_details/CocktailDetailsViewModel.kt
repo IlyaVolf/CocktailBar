@@ -1,6 +1,5 @@
-package com.example.cocktailbar.presentation
+package com.example.cocktailbar.presentation.cocktail_details
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cocktailbar.domain.CocktailsRepository

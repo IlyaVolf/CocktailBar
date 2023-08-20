@@ -1,48 +1,41 @@
-package com.example.cocktailbar.presentation
+package com.example.cocktailbar.presentation.my_cocktails
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cocktailbar.domain.CocktailsRepository
-import com.example.cocktailbar.domain.entities.Cocktail
-import com.example.cocktailbar.utils.DataHolder
-import com.example.cocktailbar.utils.ObservableHolder
 import com.example.cocktailbar.utils.share
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class MyCocktailsViewModel @AssistedInject constructor(
     private val cocktailsRepository: CocktailsRepository
 ) : ViewModel() {
 
-    private val _cocktailsList = ObservableHolder<List<Cocktail>>(DataHolder.init())
-    val cocktailsList = _cocktailsList.share()
+    private val _state = MutableLiveData<MyCocktailsState>(MyCocktailsState.Initial)
+    val state = _state.share()
 
     init {
-        _cocktailsList.postValue(DataHolder.loading())
-        load()
+         load()
     }
 
     fun refresh() {
-        _cocktailsList.postValue(DataHolder.loading())
         load()
     }
 
     fun tryAgain() {
-        _cocktailsList.postValue(DataHolder.loading())
         load()
     }
 
     private fun load() = viewModelScope.launch {
         try {
+            _state.postValue(MyCocktailsState.Loading)
             cocktailsRepository.getCocktails().collect {
-                _cocktailsList.postValue(DataHolder.ready(it))
+                _state.postValue(MyCocktailsState.Ready(it))
             }
         } catch (e: Exception) {
-            _cocktailsList.value = DataHolder.error(e)
+            _state.postValue(MyCocktailsState.Error)
         }
     }
 

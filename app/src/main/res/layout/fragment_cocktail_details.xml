@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.CocktailDetailsFragment">
+    tools:context=".presentation.cocktail_details.CocktailDetailsFragment">
 
     <ImageView
         android:id="@+id/cocktail_image_iv"

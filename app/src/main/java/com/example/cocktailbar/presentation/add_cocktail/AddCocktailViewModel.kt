@@ -1,4 +1,4 @@
-package com.example.cocktailbar.presentation
+package com.example.cocktailbar.presentation.add_cocktail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,9 +10,7 @@ import com.example.cocktailbar.utils.ObservableHolder
 import com.example.cocktailbar.utils.share
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class AddCocktailViewModel @AssistedInject constructor(
     private val cocktailsRepository: CocktailsRepository

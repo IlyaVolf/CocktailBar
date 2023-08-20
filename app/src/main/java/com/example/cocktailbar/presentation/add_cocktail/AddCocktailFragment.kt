@@ -1,4 +1,4 @@
-package com.example.cocktailbar.presentation
+package com.example.cocktailbar.presentation.add_cocktail
 
 import android.net.Uri
 import android.os.Bundle

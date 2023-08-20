@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".presentation.MyCocktailsFragment">
+    tools:context=".presentation.my_cocktails.MyCocktailsFragment">
 
     <include
         android:id="@+id/empty_list_cocktails_cl"

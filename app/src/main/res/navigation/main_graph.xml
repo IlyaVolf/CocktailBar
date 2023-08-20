@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/myCocktailsFragment"
-        android:name="com.example.cocktailbar.presentation.MyCocktailsFragment"
+        android:name="com.example.cocktailbar.presentation.my_cocktails.MyCocktailsFragment"
         android:label="fragment_my_cocktails"
         tools:layout="@layout/fragment_my_cocktails">
         <action
@@ -19,12 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/addCocktailFragment"
-        android:name="com.example.cocktailbar.presentation.AddCocktailFragment"
+        android:name="com.example.cocktailbar.presentation.add_cocktail.AddCocktailFragment"
         android:label="fragment_add_cocktail"
         tools:layout="@layout/fragment_add_cocktail" />
     <fragment
         android:id="@+id/cocktailDetailsFragment"
-        android:name="com.example.cocktailbar.presentation.CocktailDetailsFragment"
+        android:name="com.example.cocktailbar.presentation.cocktail_details.CocktailDetailsFragment"
         android:label="fragment_cocktail_details"
         tools:layout="@layout/fragment_cocktail_details">
         <argument
