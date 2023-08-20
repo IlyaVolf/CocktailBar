@@ -12,13 +12,10 @@ import com.example.cocktailbar.data.room.entities.CocktailDbEntity
 interface CocktailsDao {
 
     @Query("SELECT * FROM cocktails WHERE :id = id")
-    suspend fun getById(id: Long): CocktailDbEntity
-
-    /*@Query("SELECT * FROM cocktails WHERE :id = id")
-    fun getById(id: Long): Flow<CocktailDbEntity?>*/
+    fun getById(id: Long): Flow<CocktailDbEntity>
 
     @Query("SELECT * FROM cocktails")
-    suspend fun getCocktails(): List<CocktailDbEntity>
+    fun getCocktails(): Flow<List<CocktailDbEntity>>
 
     @Insert
     suspend fun addCocktail(cocktailDbEntity: CocktailDbEntity)

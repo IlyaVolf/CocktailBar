@@ -7,24 +7,37 @@
 
     <fragment
         android:id="@+id/myCocktailsFragment"
-        android:name="com.example.cocktailbar.presentation.MyCocktailsFragment"
+        android:name="com.example.cocktailbar.presentation.my_cocktails.MyCocktailsFragment"
         android:label="fragment_my_cocktails"
         tools:layout="@layout/fragment_my_cocktails">
         <action
             android:id="@+id/action_myCocktailsFragment_to_cocktailDetailsFragment"
-            app:destination="@id/cocktailDetailsFragment" />
+            app:destination="@id/cocktailDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_myCocktailsFragment_to_addCocktailFragment"
-            app:destination="@id/addCocktailFragment" />
+            app:destination="@id/addCocktailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/addCocktailFragment"
-        android:name="com.example.cocktailbar.presentation.AddCocktailFragment"
+        android:name="com.example.cocktailbar.presentation.add_cocktail.AddEditCocktailFragment"
         android:label="fragment_add_cocktail"
-        tools:layout="@layout/fragment_add_cocktail" />
+        tools:layout="@layout/fragment_add_edit_cocktail" >
+        <argument
+            android:name="cocktailid"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
     <fragment
         android:id="@+id/cocktailDetailsFragment"
-        android:name="com.example.cocktailbar.presentation.CocktailDetailsFragment"
+        android:name="com.example.cocktailbar.presentation.cocktail_details.CocktailDetailsFragment"
         android:label="fragment_cocktail_details"
         tools:layout="@layout/fragment_cocktail_details">
         <argument
@@ -33,6 +46,10 @@
             app:argType="long" />
         <action
             android:id="@+id/action_cocktailDetailsFragment_to_addCocktailFragment"
-            app:destination="@id/addCocktailFragment" />
+            app:destination="@id/addCocktailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 </navigation>

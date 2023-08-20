@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.CocktailDetailsFragment">
+    tools:context=".presentation.cocktail_details.CocktailDetailsFragment">
 
     <ImageView
         android:id="@+id/cocktail_image_iv"
@@ -15,138 +15,23 @@
         app:layout_constraintDimensionRatio="H,4:3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAccessibility="no" />
 
-    <View
-        android:id="@+id/sheet_1_v"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:background="@drawable/sheet"
-        app:layout_constraintBottom_toBottomOf="@id/cocktail_image_iv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <View
-        android:id="@+id/sheet_2_v"
+    <include
+        android:id="@+id/cocktail_recipe_layout"
+        layout="@layout/item_cocktail_recipe"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="-10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.65"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sheet_1_v" />
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintBottom_toTopOf="@id/edit_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/sheet_1_v">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/cocktail_name_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingHorizontal="16dp"
-                android:textAlignment="center"
-                android:textAppearance="@style/Text.Normal.32"
-                tools:text="Pink Lemonade" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <TextView
-                android:id="@+id/cocktail_description_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:textAppearance="@style/Text.Normal.16"
-                tools:text="To make this homemade pink lemonade, simply combine all the ingredients in a pitcher." />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingredients_list_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:spanCount="1"
-                tools:listitem="@layout/item_ingredient" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <TextView
-                android:id="@+id/recipe_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="16dp"
-                android:paddingHorizontal="16dp"
-                android:text="@string/recipe_title"
-                android:textAlignment="center"
-                android:textAppearance="@style/Text.Normal.16" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="4dp" />
-
-            <TextView
-                android:id="@+id/recipe_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingHorizontal="4dp"
-                android:textAlignment="center"
-                android:textAppearance="@style/Text.Normal.16"
-                tools:text="To make this homemade pink lemonade, simply combine all the ingredients in a pitcher." />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recipe_tv" />
-
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/edit_button"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/background_basic"
-        android:backgroundTint="@color/blue"
-        android:text="@string/edit"
-        android:textAppearance="@style/Text.Normal.24"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <include
         android:id="@+id/loading_view"
         layout="@layout/view_loading"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/edit_button" />
+        android:visibility="gone" />
 
     <include
         android:id="@+id/error_view"

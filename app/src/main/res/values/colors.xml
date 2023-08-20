@@ -6,4 +6,6 @@
     <color name="blue">#FF4B97FF</color>
     <color name="grey">#FFEEEEEE</color>
 
+    <color name="color_ripple">#DADCE1</color>
+
 </resources>
