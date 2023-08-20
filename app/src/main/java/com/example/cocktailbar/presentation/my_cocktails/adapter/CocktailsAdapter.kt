@@ -1,4 +1,4 @@
-package com.example.cocktailbar.presentation.list
+package com.example.cocktailbar.presentation.my_cocktails.adapter
 
 import android.view.LayoutInflater
 import android.view.View

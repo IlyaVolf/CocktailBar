@@ -1,16 +1,16 @@
-package com.example.cocktailbar.presentation.list
+package com.example.cocktailbar.presentation.cocktail_details.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cocktailbar.databinding.ItemIngredientBinding
 import com.example.cocktailbar.domain.entities.Ingredient
-import com.example.cocktailbar.utils.image_loader.loadImage
 
-class IngredientsAdapter() : ListAdapter<Ingredient, IngredientsAdapter.IngredientHolder>(ItemCallback) {
+class IngredientsAdapter : ListAdapter<Ingredient, IngredientsAdapter.IngredientHolder>(
+    ItemCallback
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientHolder {
         val inflater = LayoutInflater.from(parent.context)

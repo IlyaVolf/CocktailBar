@@ -10,9 +10,7 @@ import com.example.cocktailbar.R
 import com.example.cocktailbar.databinding.FragmentCocktailDetailsBinding
 import com.example.cocktailbar.domain.entities.Cocktail
 import com.example.cocktailbar.domain.entities.Ingredient
-import com.example.cocktailbar.presentation.list.IngredientsAdapter
-import com.example.cocktailbar.presentation.my_cocktails.MyCocktailsState
-import com.example.cocktailbar.utils.DataHolder
+import com.example.cocktailbar.presentation.cocktail_details.adapter.IngredientsAdapter
 import com.example.cocktailbar.utils.createSimpleDialog
 import com.example.cocktailbar.utils.image_loader.loadImage
 import com.example.cocktailbar.utils.viewBinding
@@ -100,14 +98,16 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
             cocktailNameTv.text = cocktail.name
             binding.cocktailImageIv.loadImage(cocktail.image.orEmpty())
 
-            if (cocktail.description == "") {
+            if (cocktail.description.isBlank()) {
                 cocktailDescriptionTv.isVisible = false
+                cocktailDescriptionSpace.isVisible = false
             } else {
                 cocktailDescriptionTv.isVisible = true
+                cocktailDescriptionSpace.isVisible = true
                 cocktailDescriptionTv.text = cocktail.description
             }
 
-            if (cocktail.recipe == "") {
+            if (cocktail.recipe.isBlank()) {
                 recipeTitleTv.isVisible = false
                 recipeTv.isVisible = false
                 recipeSpace.isVisible = false

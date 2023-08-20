@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.cocktailbar.R
 import com.example.cocktailbar.databinding.FragmentMyCocktailsBinding
 import com.example.cocktailbar.domain.entities.Cocktail
-import com.example.cocktailbar.presentation.list.CocktailsAdapter
+import com.example.cocktailbar.presentation.my_cocktails.adapter.CocktailsAdapter
 import com.example.cocktailbar.utils.viewBinding
 import com.example.cocktailbar.utils.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint

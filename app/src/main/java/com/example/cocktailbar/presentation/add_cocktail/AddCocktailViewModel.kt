@@ -1,5 +1,6 @@
 package com.example.cocktailbar.presentation.add_cocktail
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cocktailbar.domain.CocktailsRepository
@@ -16,23 +17,34 @@ class AddCocktailViewModel @AssistedInject constructor(
     private val cocktailsRepository: CocktailsRepository
 ) : ViewModel() {
 
-    private val _save = ObservableHolder<Unit>(DataHolder.init())
-    val save = _save.share()
-    fun save(addCocktailData: AddCocktailData) = viewModelScope.launch {
-        try {
-            _save.value = DataHolder.loading()
-            val cocktail = Cocktail(
-                id = 0,
-                name = addCocktailData.name,
-                description = addCocktailData.description,
-                ingredients = addCocktailData.ingredients,
-                recipe = addCocktailData.recipe,
-                image = addCocktailData.image
+    private val _state = MutableLiveData<AddCocktailState>(AddCocktailState.Initial)
+    val state = _state.share()
+    fun save(addCocktailData: AddCocktailData) {
+
+        if (addCocktailData.name.isBlank() || addCocktailData.ingredients.isEmpty()) {
+            _state.value = AddCocktailState.ValidationError(
+                addCocktailData.name.isBlank(),
+                addCocktailData.ingredients.isEmpty()
             )
-            cocktailsRepository.addCocktail(cocktail)
-            _save.postValue(DataHolder.ready(Unit))
-        } catch (e: Exception) {
-            _save.value = DataHolder.error(e)
+            return
+        }
+
+        viewModelScope.launch {
+            try {
+                _state.postValue(AddCocktailState.Saving)
+                val cocktail = Cocktail(
+                    id = 0,
+                    name = addCocktailData.name,
+                    description = addCocktailData.description,
+                    ingredients = addCocktailData.ingredients,
+                    recipe = addCocktailData.recipe,
+                    image = addCocktailData.image
+                )
+                cocktailsRepository.addCocktail(cocktail)
+                _state.postValue(AddCocktailState.SaveSuccessful)
+            } catch (e: Exception) {
+                _state.postValue(AddCocktailState.SaveError(e))
+            }
         }
     }
 
