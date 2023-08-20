@@ -9,7 +9,6 @@ import com.example.cocktailbar.R
 import com.example.cocktailbar.databinding.FragmentMyCocktailsBinding
 import com.example.cocktailbar.domain.entities.Cocktail
 import com.example.cocktailbar.presentation.list.CocktailsAdapter
-import com.example.cocktailbar.utils.DataHolder
 import com.example.cocktailbar.utils.viewBinding
 import com.example.cocktailbar.utils.viewModelCreator
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,57 +43,55 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is MyCocktailsState.Initial -> {
-                    manageVisibility(
-                        visibilityLoadingView = false,
-                        visibilityEmptyListView = false,
-                        visibilityListView = false,
-                        visibilityErrorView = false
-                    )
+                    setEmptyListVisibility(false)
+                    setNonEmptyListVisibility(false)
+                    setLoadingVisibility(false)
+                    setErrorVisibility(false)
                 }
 
                 is MyCocktailsState.Loading -> {
-                    manageVisibility(
-                        visibilityLoadingView = true,
-                        visibilityEmptyListView = false,
-                        visibilityListView = false,
-                        visibilityErrorView = false
-                    )
+                    setEmptyListVisibility(false)
+                    setNonEmptyListVisibility(false)
+                    setLoadingVisibility(true)
+                    setErrorVisibility(false)
                 }
 
                 is MyCocktailsState.Ready -> {
-                    manageVisibility(
-                        visibilityLoadingView = false,
-                        visibilityEmptyListView = state.cocktailsList.isEmpty(),
-                        visibilityListView = state.cocktailsList.isNotEmpty(),
-                        visibilityErrorView = false
-                    )
+                    setEmptyListVisibility(state.cocktailsList.isEmpty())
+                    setNonEmptyListVisibility(state.cocktailsList.isNotEmpty())
+                    setLoadingVisibility(false)
+                    setErrorVisibility(false)
+
                     adapter.submitList(state.cocktailsList)
                 }
 
                 is MyCocktailsState.Error -> {
-                    manageVisibility(
-                        visibilityLoadingView = false,
-                        visibilityEmptyListView = false,
-                        visibilityListView = false,
-                        visibilityErrorView = true
-                    )
+                    setEmptyListVisibility(false)
+                    setNonEmptyListVisibility(false)
+                    setLoadingVisibility(false)
+                    setErrorVisibility(true)
                 }
             }
         }
     }
 
-    private fun manageVisibility(
-        visibilityLoadingView: Boolean,
-        visibilityEmptyListView: Boolean,
-        visibilityListView: Boolean,
-        visibilityErrorView: Boolean
-    ) {
+    private fun setLoadingVisibility(isVisible: Boolean) {
+        binding.loadingView.root.isVisible = isVisible
+    }
+
+    private fun setErrorVisibility(isVisible: Boolean) {
+        binding.errorView.root.isVisible = isVisible
+    }
+    private fun setNonEmptyListVisibility(isVisible: Boolean) {
         with (binding) {
-            loadingView.root.isVisible = visibilityLoadingView
-            emptyListCocktailsCl.root.isVisible = visibilityEmptyListView
-            myCocktailsTv.isVisible = visibilityListView
-            cocktailsListRv.isVisible = visibilityListView
-            errorView.root.isVisible = visibilityErrorView
+            cocktailsListRv.isVisible = isVisible
+            myCocktailsTv.isVisible = isVisible
+        }
+    }
+    private fun setEmptyListVisibility(isVisible: Boolean) {
+        with (binding) {
+            emptyListCocktailsV.root.isVisible = isVisible
+            firstCocktailHintV.root.isVisible = isVisible
         }
     }
 
