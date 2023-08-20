@@ -7,7 +7,7 @@ interface CocktailsRepository {
 
     suspend fun getCocktails(): Flow<List<Cocktail>>
 
-    suspend fun getById(id: Long): Cocktail
+    suspend fun getById(id: Long): Flow<Cocktail>
 
     suspend fun addCocktail(cocktail: Cocktail)
 

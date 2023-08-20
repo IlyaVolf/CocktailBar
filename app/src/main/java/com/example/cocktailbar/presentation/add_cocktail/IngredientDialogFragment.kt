@@ -49,7 +49,7 @@ class IngredientDialogFragment : DialogFragment() {
                 if (ingredient.isBlank()) {
                     TextFieldIngredient.error = getString(R.string.fill_ingredient_field)
                 } else {
-                    requireActivity().supportFragmentManager.setFragmentResult(
+                    parentFragmentManager.setFragmentResult(
                         INGREDIENT_REQUEST_CODE, bundleOf(INGREDIENT to ingredient)
                     )
                     dismiss()

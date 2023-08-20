@@ -43,7 +43,7 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
     }
 
     private fun observeCocktail() {
-        viewModel.cocktail.observe(viewLifecycleOwner) { state ->
+        viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is CocktailDetailsState.Initial -> {
                     setCocktailDescriptionVisibility(false)
@@ -69,6 +69,7 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
                     setCocktailDescriptionVisibility(false)
                     setLoadingVisibility(false)
                     setErrorVisibility(true)
+                    binding.errorView.Error.text = state.error.toString()
                 }
 
                 CocktailDetailsState.DeletionReady -> {
@@ -143,6 +144,10 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
 
     private fun initEditButtonListener() {
         binding.cocktailRecipeLayout.editButton.setOnClickListener {
+            val direction = CocktailDetailsFragmentDirections.actionCocktailDetailsFragmentToAddCocktailFragment(
+                cocktail?.id ?: -1L
+            )
+            findNavController().navigate(direction)
         }
     }
 

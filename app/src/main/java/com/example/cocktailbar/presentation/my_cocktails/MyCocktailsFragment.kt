@@ -70,6 +70,7 @@ class MyCocktailsFragment : Fragment(R.layout.fragment_my_cocktails) {
                     setNonEmptyListVisibility(false)
                     setLoadingVisibility(false)
                     setErrorVisibility(true)
+                    binding.errorView.Error.text = state.error.toString()
                 }
             }
         }

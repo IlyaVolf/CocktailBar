@@ -1,13 +1,10 @@
 package com.example.cocktailbar.presentation.cocktail_details
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cocktailbar.domain.CocktailsRepository
 import com.example.cocktailbar.domain.entities.Cocktail
-import com.example.cocktailbar.utils.DataHolder
-import com.example.cocktailbar.utils.ObservableHolder
 import com.example.cocktailbar.utils.share
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -19,8 +16,8 @@ class CocktailDetailsViewModel @AssistedInject constructor(
     private val cocktailsRepository: CocktailsRepository
 ) : ViewModel() {
 
-    private val _cocktail = MutableLiveData<CocktailDetailsState>(CocktailDetailsState.Initial)
-    val cocktail = _cocktail.share()
+    private val _state = MutableLiveData<CocktailDetailsState>(CocktailDetailsState.Initial)
+    val state = _state.share()
 
     init {
         load()
@@ -36,21 +33,22 @@ class CocktailDetailsViewModel @AssistedInject constructor(
         }
 
         try {
-            _cocktail.postValue(CocktailDetailsState.Loading)
+            _state.postValue(CocktailDetailsState.Loading)
             cocktailsRepository.deleteCocktail(cocktail)
-            _cocktail.postValue(CocktailDetailsState.DeletionReady)
+            _state.postValue(CocktailDetailsState.DeletionReady)
         } catch (e: Exception) {
-            _cocktail.postValue(CocktailDetailsState.Error(e))
+            _state.postValue(CocktailDetailsState.Error(e))
         }
     }
 
     private fun load() = viewModelScope.launch {
         try {
-            _cocktail.postValue(CocktailDetailsState.Loading)
-            val cocktail = cocktailsRepository.getById(cocktailId)
-            _cocktail.postValue(CocktailDetailsState.DataReady(cocktail))
+            _state.postValue(CocktailDetailsState.Loading)
+            cocktailsRepository.getById(cocktailId).collect { cocktail ->
+                _state.postValue(CocktailDetailsState.DataReady(cocktail))
+            }
         } catch (e: Exception) {
-            _cocktail.postValue(CocktailDetailsState.Error(e))
+            _state.postValue(CocktailDetailsState.Error(e))
         }
     }
 

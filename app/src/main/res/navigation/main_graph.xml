@@ -27,9 +27,14 @@
     </fragment>
     <fragment
         android:id="@+id/addCocktailFragment"
-        android:name="com.example.cocktailbar.presentation.add_cocktail.AddCocktailFragment"
+        android:name="com.example.cocktailbar.presentation.add_cocktail.AddEditCocktailFragment"
         android:label="fragment_add_cocktail"
-        tools:layout="@layout/fragment_add_cocktail" />
+        tools:layout="@layout/fragment_add_edit_cocktail" >
+        <argument
+            android:name="cocktailid"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
     <fragment
         android:id="@+id/cocktailDetailsFragment"
         android:name="com.example.cocktailbar.presentation.cocktail_details.CocktailDetailsFragment"

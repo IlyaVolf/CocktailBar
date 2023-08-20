@@ -5,13 +5,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cocktailbar.R
-import com.example.cocktailbar.databinding.FragmentAddCocktailBinding
+import com.example.cocktailbar.databinding.FragmentAddEditCocktailBinding
 import com.example.cocktailbar.domain.entities.AddCocktailData
+import com.example.cocktailbar.domain.entities.Cocktail
 import com.example.cocktailbar.presentation.add_cocktail.adapter.IngredientItem
 import com.example.cocktailbar.presentation.add_cocktail.adapter.IngredientsListAdapter
 import com.example.cocktailbar.utils.createSimpleDialog
@@ -22,15 +24,17 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class AddCocktailFragment : Fragment(R.layout.fragment_add_cocktail) {
+class AddEditCocktailFragment : Fragment(R.layout.fragment_add_edit_cocktail) {
+
+    private val args by navArgs<AddEditCocktailFragmentArgs>()
 
     @Inject
-    lateinit var factory: AddCocktailViewModel.Factory
+    lateinit var factory: AddEditCocktailViewModel.Factory
     private val viewModel by viewModelCreator {
-        factory.create()
+        factory.create(args.cocktailid)
     }
 
-    private val binding by viewBinding<FragmentAddCocktailBinding>()
+    private val binding by viewBinding<FragmentAddEditCocktailBinding>()
 
     private val ingredientsListAdapter = IngredientsListAdapter()
 
@@ -57,14 +61,32 @@ class AddCocktailFragment : Fragment(R.layout.fragment_add_cocktail) {
     private fun initListeners() {
         initSaveButtonListener()
         initCancelButtonListener()
+        initErrorViewListener()
     }
 
     private fun observeSave() {
         viewModel.state.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is AddCocktailState.Initial -> {}
+                is AddEditCocktailState.Initial -> {
+                    setContentVisibility(false)
+                    setLoadingVisibility(false)
+                    setErrorVisibility(false)
+                }
 
-                is AddCocktailState.ValidationError -> {
+                is AddEditCocktailState.InProcess -> {
+                    setContentVisibility(false)
+                    setLoadingVisibility(true)
+                    setErrorVisibility(false)
+                }
+
+                is AddEditCocktailState.DataReady -> {
+                    setContentVisibility(true)
+                    setLoadingVisibility(false)
+                    setErrorVisibility(false)
+                    renderContent(state.cocktail)
+                }
+
+                is AddEditCocktailState.ValidationError -> {
                     binding.nameEt.error =
                         if (state.isNameBlank) getString(R.string.add_cocktail_name) else null
 
@@ -76,16 +98,25 @@ class AddCocktailFragment : Fragment(R.layout.fragment_add_cocktail) {
                     }
                 }
 
-                is AddCocktailState.SaveError -> {
-
-                }
-
-                is AddCocktailState.SaveSuccessful -> {
+                is AddEditCocktailState.SaveSuccessful -> {
                     goBack()
                 }
 
-                else -> {}
+                is AddEditCocktailState.Error -> {
+                    setContentVisibility(false)
+                    setLoadingVisibility(false)
+                    setErrorVisibility(true)
+                    binding.errorView.Error.text = state.error.toString()
+                }
             }
+        }
+    }
+
+    private fun setContentVisibility(isVisible: Boolean) {
+        with(binding) {
+            cancelButton.isVisible = isVisible
+            saveButton.isVisible = isVisible
+            contentNsv.isVisible = isVisible
         }
     }
 
@@ -107,14 +138,34 @@ class AddCocktailFragment : Fragment(R.layout.fragment_add_cocktail) {
 
     }
 
+    private fun setLoadingVisibility(isVisible: Boolean) {
+        binding.loadingView.root.isVisible = isVisible
+    }
+
+    private fun setErrorVisibility(isVisible: Boolean) {
+        binding.errorView.root.isVisible = isVisible
+    }
+
+    private fun renderContent(cocktail: Cocktail?) {
+        if (cocktail == null) return
+
+        with(binding) {
+            nameEt.setText(cocktail.name)
+            descriptionEt.setText(cocktail.description)
+            recipeEt.setText(cocktail.recipe)
+            val ingredientsItems = cocktail.ingredients.map { IngredientItem(it) }
+            ingredientsListAdapter.submitList(ingredientsItems)
+        }
+    }
+
     private fun showIngredientDialog() {
         val dialogFragment = IngredientDialogFragment()
         initIngredientDialogResultListener()
-        dialogFragment.show(parentFragmentManager, null)
+        dialogFragment.show(childFragmentManager, null)
     }
 
     private fun initIngredientDialogResultListener() {
-        requireActivity().supportFragmentManager.setFragmentResultListener(
+        childFragmentManager.setFragmentResultListener(
             IngredientDialogFragment.INGREDIENT_REQUEST_CODE,
             viewLifecycleOwner
         ) { _, data ->
@@ -153,6 +204,12 @@ class AddCocktailFragment : Fragment(R.layout.fragment_add_cocktail) {
     private fun initCancelButtonListener() {
         binding.cancelButton.setOnClickListener {
             createCancelDialog()
+        }
+    }
+
+    private fun initErrorViewListener() {
+        binding.errorView.root.setOnClickListener {
+            viewModel.tryAgain()
         }
     }
 
