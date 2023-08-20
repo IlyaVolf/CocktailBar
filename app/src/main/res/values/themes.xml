@@ -12,12 +12,4 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="DefaultTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:textAppearance">@style/Text.Normal.16</item>
-    </style>
-
-    <style name="DefaultTextInputEditText">
-        <item name="android:textAppearance">@style/Text.Normal.16</item>
-    </style>
-
 </resources>
