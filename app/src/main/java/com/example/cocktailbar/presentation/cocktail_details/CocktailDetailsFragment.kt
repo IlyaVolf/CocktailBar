@@ -111,12 +111,18 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
         }
 
         if (cocktail.recipe == "") {
-            binding.recipeTitleTv.isVisible = false
-            binding.recipeTv.isVisible = false
+            with (binding) {
+                recipeTitleTv.isVisible = false
+                recipeTv.isVisible = false
+                recipeSpace.isVisible = false
+            }
         } else {
-            binding.recipeTitleTv.isVisible = true
-            binding.recipeTv.isVisible = true
-            binding.recipeTv.text = cocktail.recipe
+            with (binding) {
+                recipeTitleTv.isVisible = true
+                recipeTv.isVisible = true
+                recipeTv.text = cocktail.recipe
+                recipeSpace.isVisible = true
+            }
         }
 
         val ingredients = cocktail.ingredients.map { Ingredient(it.indexOf(it).toLong(), it) }
