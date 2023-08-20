@@ -39,7 +39,7 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.ingredientsListRv.adapter = adapter
+        binding.cocktailRecipeLayout.ingredientsListRv.adapter = adapter
         initListeners()
         observeCocktail()
     }
@@ -82,11 +82,7 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
 
     private fun setCocktailDescriptionVisibility(isVisible: Boolean) {
         with(binding) {
-            sheet1V.isVisible = isVisible
-            sheet2V.isVisible = isVisible
-            cocktailNameTv.isVisible = isVisible
-            cocktailDescriptionTv.isVisible = isVisible
-            ingredientsListRv.isVisible = isVisible
+            cocktailRecipeLayout.root.isVisible = isVisible
             cocktailImageIv.isVisible = isVisible
         }
     }
@@ -100,24 +96,22 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
     }
 
     private fun renderContent(cocktail: Cocktail) {
-        binding.cocktailNameTv.text = cocktail.name
-        binding.cocktailImageIv.loadImage(cocktail.image.orEmpty())
+        with(binding.cocktailRecipeLayout) {
+            cocktailNameTv.text = cocktail.name
+            binding.cocktailImageIv.loadImage(cocktail.image.orEmpty())
 
-        if (cocktail.description == "") {
-            binding.cocktailDescriptionTv.isVisible = false
-        } else {
-            binding.cocktailDescriptionTv.isVisible = true
-            binding.cocktailDescriptionTv.text = cocktail.description
-        }
+            if (cocktail.description == "") {
+                cocktailDescriptionTv.isVisible = false
+            } else {
+                cocktailDescriptionTv.isVisible = true
+                cocktailDescriptionTv.text = cocktail.description
+            }
 
-        if (cocktail.recipe == "") {
-            with (binding) {
+            if (cocktail.recipe == "") {
                 recipeTitleTv.isVisible = false
                 recipeTv.isVisible = false
                 recipeSpace.isVisible = false
-            }
-        } else {
-            with (binding) {
+            } else {
                 recipeTitleTv.isVisible = true
                 recipeTv.isVisible = true
                 recipeTv.text = cocktail.recipe
@@ -142,13 +136,13 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
     }
 
     private fun initDeleteButtonListener() {
-        binding.deleteButton.setOnClickListener {
+        binding.cocktailRecipeLayout.deleteButton.setOnClickListener {
             createDialogDelete()
         }
     }
 
     private fun initEditButtonListener() {
-        binding.editButton.setOnClickListener {
+        binding.cocktailRecipeLayout.editButton.setOnClickListener {
         }
     }
 
