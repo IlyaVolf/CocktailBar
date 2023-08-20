@@ -1,7 +1,11 @@
 # CocktailBar
 Тестовое задание в рамках летней школы Surf 2023
 
-Apk-файл: [apk file](/app-debug.apk)
+Бриф: https://docs.google.com/document/d/16poPTQjJIaynjJpQzxlrNiPPSd_20PaDv9OXHKY9w6o/edit#heading=h.p56embp18xyh
+
+Задание: https://docs.google.com/document/d/1n8jzC6oZc5-kDQeR50INa8AclKuyucq7icO7qBKfd20/edit
+
+Apk-файл: [apk file](/cocktailApp.apk)
 
 ## Описание реализации приложения
 ### Реализовано:
@@ -17,27 +21,25 @@ Apk-файл: [apk file](/app-debug.apk)
   
     Реализован полностью в рамках основого задания;
 
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/9b8373e4-3323-4e27-9baa-1da141cf147d" width="216" height="384">
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/9bf1d3fc-806b-427e-9781-4540a0da43f4" width="216" height="384">
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/75256635-cd84-492c-a840-1fa0b9284227" width="216" height="384">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/3d02217a-58b3-4550-92a3-0e48023fcd4f" width="216" height="384">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/55db9839-5ed9-4824-b835-718f8d91e403" width="216" height="384">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/f2de3d6d-5309-4d17-929c-b913685c81ce" width="216" height="384">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/65f9e8ed-fe54-4433-8824-405fa8c0cb55" width="216" height="384">
+    
     
 -   Экран “Создание коктейля”:
   
-    Реализовано создание коктеля без загрузки фотографии и рецепта. Добавление фотографии и рецепта захардкожены, тогда как их хранение и отображение полностью поддерживается.
+    Реализовано создание и редактирование коктеля без загрузки фотографии. Добавление фотографии и рецепта захардкожены, тогда как их хранение и отображение полностью поддерживается.
 
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/552dbe38-e9c1-4dd3-8038-f0a87ed70477" width="216" height="384">
-    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/7c8ca45e-9a8f-4a04-8b1d-2ac8e20fcdee" width="216" height="384">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/3bf6af9a-dc87-477b-868a-8c94a68fb10d" width="216" height="384">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/f614b527-5ddb-4243-b907-f57188118b9a" width="216" height="384">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/b79f62f6-d0ee-4864-aa85-01d90e11ac2c" width="216" height="384">
+    <img src="https://github.com/IlyaVolf/CocktailBar/assets/70796651/38caba01-5142-4154-b343-3e9f54912e06" width="216" height="384">
 
 -   Доп:
     -   Состояния экранов:
       
         Каждый экран имеет своё состояние (загрузка, успех и ошибка), в зависимости от которого отображается програссбар, успешно загруженные данные или сообщение об ошибке с кнопкой "повторить".
-
-### Не реализовано:
--   В экране “Создание коктейля”:
-  
-    Ввод ингредиентов, валидация введённого текста на заполненность обязательных полей;
--   Дополнительные задания.
 
 ### Используемые технологии:
 -   Room - Хранение коктелей;
@@ -56,27 +58,19 @@ Apk-файл: [apk file](/app-debug.apk)
 ### Описание реализации:
 ViewModel обращается к репозиторию, чтобы передать или получить данные. Методы репозитория - suspend-функции, которые выполняются с помощью Dispatchers.IO. Эти методы, в свою очередь, взаимодействуют с БД путём вызыва соответствующих методов DAO-класса.
 
-Коммуникация ViewModel с фрагментов осуществляется посредством LiveData. В LiveData хранятся контейнеры сущностей, которые позволяют указать для сущности одно из следующих состояний: Init, Loading, Refresh, Ready, Error (в общем случае). Фрагмент подписывается на LiveData и в дальнейшем обновляет экран в соответствии с полученным состоянием объекта.
-
-### Крайне __глупые(!)__ баги, которые заметил слишком поздно:
--   На странице с описанием коктеля описание коктеля отображается вместо рецепта: `binding.recipeTv.text = cocktail.description`;
--   После переименования id кнопки добавления нового коктейля на странице с коктейлями у RecyclerView поломан нижний констреинт;
--   Остальное реализовать просто не успел =(
+Коммуникация ViewModel с фрагментов осуществляется посредством LiveData. В LiveData хранится состояние экрана. Фрагмент подписывается на LiveData и в дальнейшем обновляет экран в соответствии с полученным состоянием.
 
 ## Демонстрация работы приложения
 
-Флоу 1
--   Включает в себя: просмотр списка лимонадов, описания некоторых лимонадов, добавление нового лимонада, отмена добавления нового лимонада
-
-    Продолжительность видео: 1:05
-
-    ![флоу_1_сжат](https://github.com/IlyaVolf/CocktailBar/assets/70796651/c1911ec3-afc3-48fd-a81a-c0f95b94c965)
-    
-    
-Флоу 2
--   Включает в себя: просмотр пустого списка лимонадов и добавление первого лимонада
-
-    Продолжительность видео: 0:27
+- Флоу 1
+  Продолжительность видео: 1:37
   
-    ![флоу_2_сжат](https://github.com/IlyaVolf/CocktailBar/assets/70796651/97dd85f9-7a2e-4c75-930f-37d891fa82fd)
+  ![флоу 1 сжат](https://github.com/IlyaVolf/CocktailBar/assets/70796651/b8ea55ca-da83-404f-9b00-c6f5151c420c)
+
+
+- Флоу 2
+  Продолжительность видео: 0:07
+  
+  ![флоу 2 сжат](https://github.com/IlyaVolf/CocktailBar/assets/70796651/7bfcaf9b-58be-44ab-a6d8-062ff2fa6251)
+
 
