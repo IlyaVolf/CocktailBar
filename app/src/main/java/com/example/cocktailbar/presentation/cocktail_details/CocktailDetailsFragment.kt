@@ -13,6 +13,7 @@ import com.example.cocktailbar.domain.entities.Ingredient
 import com.example.cocktailbar.presentation.list.IngredientsAdapter
 import com.example.cocktailbar.presentation.my_cocktails.MyCocktailsState
 import com.example.cocktailbar.utils.DataHolder
+import com.example.cocktailbar.utils.createSimpleDialog
 import com.example.cocktailbar.utils.image_loader.loadImage
 import com.example.cocktailbar.utils.viewBinding
 import com.example.cocktailbar.utils.viewModelCreator
@@ -33,6 +34,7 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
     private val binding by viewBinding<FragmentCocktailDetailsBinding>()
 
     private val adapter = IngredientsAdapter()
+    private var cocktail: Cocktail? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,36 +48,29 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
         viewModel.cocktail.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is CocktailDetailsState.Initial -> {
-                    manageVisibility(
-                        visibilityLoadingView = true,
-                        visibilityContentView = false,
-                        visibilityErrorView = false
-                    )
+                    setCocktailDescriptionVisibility(false)
+                    setLoadingVisibility(false)
+                    setErrorVisibility(false)
                 }
 
                 is CocktailDetailsState.Loading -> {
-                    manageVisibility(
-                        visibilityLoadingView = true,
-                        visibilityContentView = false,
-                        visibilityErrorView = false
-                    )
+                    setCocktailDescriptionVisibility(false)
+                    setLoadingVisibility(true)
+                    setErrorVisibility(false)
                 }
 
                 is CocktailDetailsState.DataReady -> {
-                    manageVisibility(
-                        visibilityLoadingView = false,
-                        visibilityContentView = true,
-                        visibilityErrorView = false
-                    )
+                    setCocktailDescriptionVisibility(true)
+                    setLoadingVisibility(false)
+                    setErrorVisibility(false)
+                    cocktail = state.cocktail
                     renderContent(state.cocktail)
                 }
 
                 is CocktailDetailsState.Error -> {
-                    manageVisibility(
-                        visibilityLoadingView = false,
-                        visibilityContentView = false,
-                        visibilityErrorView = true
-                    )
+                    setCocktailDescriptionVisibility(false)
+                    setLoadingVisibility(false)
+                    setErrorVisibility(true)
                 }
 
                 CocktailDetailsState.DeletionReady -> {
@@ -85,27 +80,26 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
         }
     }
 
-    private fun manageVisibility(
-        visibilityLoadingView: Boolean,
-        visibilityContentView: Boolean,
-        visibilityErrorView: Boolean
-    ) {
+    private fun setCocktailDescriptionVisibility(isVisible: Boolean) {
         with(binding) {
-            loadingView.root.isVisible = visibilityLoadingView
-            cocktailNameTv.isVisible = visibilityContentView
-            cocktailDescriptionTv.isVisible = visibilityContentView
-            ingredientsListRv.isVisible = visibilityContentView
-            cocktailImageIv.isVisible = visibilityContentView
-            errorView.root.isVisible = visibilityErrorView
+            sheet1V.isVisible = isVisible
+            sheet2V.isVisible = isVisible
+            cocktailNameTv.isVisible = isVisible
+            cocktailDescriptionTv.isVisible = isVisible
+            ingredientsListRv.isVisible = isVisible
+            cocktailImageIv.isVisible = isVisible
         }
     }
 
-    private fun renderContent(cocktail: Cocktail) {
-        val ingredients = mutableListOf<Ingredient>()
-        for (i in cocktail.ingredients.indices) {
-            ingredients.add(Ingredient(i.toLong(), cocktail.ingredients[i]))
-        }
+    private fun setLoadingVisibility(isVisible: Boolean) {
+        binding.loadingView.root.isVisible = isVisible
+    }
 
+    private fun setErrorVisibility(isVisible: Boolean) {
+        binding.errorView.root.isVisible = isVisible
+    }
+
+    private fun renderContent(cocktail: Cocktail) {
         binding.cocktailNameTv.text = cocktail.name
         binding.cocktailImageIv.loadImage(cocktail.image.orEmpty())
 
@@ -125,11 +119,13 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
             binding.recipeTv.text = cocktail.recipe
         }
 
+        val ingredients = cocktail.ingredients.map { Ingredient(it.indexOf(it).toLong(), it) }
         adapter.submitList(ingredients)
     }
 
     private fun initListeners() {
         initErrorViewListener()
+        initDeleteButtonListener()
         initEditButtonListener()
     }
 
@@ -139,9 +135,43 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
         }
     }
 
+    private fun initDeleteButtonListener() {
+        binding.deleteButton.setOnClickListener {
+            createDialogDelete()
+        }
+    }
+
     private fun initEditButtonListener() {
         binding.editButton.setOnClickListener {
         }
+    }
+
+    private fun createDialogDelete() {
+        val messageText = getString(R.string.ask_delete_cocktail_warning)
+
+        val neutralButtonText = getString(R.string.action_back)
+        val negativeButtonText = getString(R.string.action_delete)
+
+        createSimpleDialog(
+            requireContext(),
+            null,
+            messageText,
+            negativeButtonText,
+            { dialog, _ ->
+                run {
+                    viewModel.deleteCocktail(cocktail)
+                    dialog.cancel()
+                }
+            },
+            neutralButtonText,
+            { dialog, _ ->
+                run {
+                    dialog.cancel()
+                }
+            },
+            null,
+            null,
+        )
     }
 
 }

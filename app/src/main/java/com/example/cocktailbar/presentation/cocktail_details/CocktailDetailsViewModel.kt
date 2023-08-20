@@ -30,11 +30,15 @@ class CocktailDetailsViewModel @AssistedInject constructor(
         load()
     }
 
-    fun delete() = viewModelScope.launch {
+    fun deleteCocktail(cocktail: Cocktail?) = viewModelScope.launch {
+        if (cocktail == null) {
+            return@launch
+        }
+
         try {
             _cocktail.postValue(CocktailDetailsState.Loading)
-            val cocktail = cocktailsRepository.getById(cocktailId)
-            _cocktail.postValue(CocktailDetailsState.DataReady(cocktail))
+            cocktailsRepository.deleteCocktail(cocktail)
+            _cocktail.postValue(CocktailDetailsState.DeletionReady)
         } catch (e: Exception) {
             _cocktail.postValue(CocktailDetailsState.Error(e))
         }

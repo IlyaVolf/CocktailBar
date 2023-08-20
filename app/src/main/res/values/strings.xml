@@ -18,4 +18,5 @@
     <string name="action_back">Back</string>
     <string name="description">Description</string>
     <string name="recipe_title">Recipe:</string>
+    <string name="ask_delete_cocktail_warning">Are you sure you want to delete this cocktail?</string>
 </resources>
