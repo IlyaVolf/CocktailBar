@@ -120,7 +120,10 @@ class CocktailDetailsFragment : Fragment(R.layout.fragment_cocktail_details) {
             }
         }
 
-        val ingredients = cocktail.ingredients.map { Ingredient(it.indexOf(it).toLong(), it) }
+        val ingredients = mutableListOf<Ingredient>()
+        cocktail.ingredients.forEachIndexed { index, ingredient ->
+            ingredients.add(Ingredient(index.toLong(), ingredient))
+        }
         adapter.submitList(ingredients)
     }
 
